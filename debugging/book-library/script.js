@@ -52,6 +52,7 @@ function Book(title, author, pages, check) {
 }
 
 function render() {
+  console.log(myLibrary);
   let table = document.getElementById("display");
   let rowsNumber = table.rows.length;
   //delete old table
@@ -96,7 +97,6 @@ function render() {
     delButton.className = "btn btn-warning";
     delButton.innerHTML = "Delete";
     delButton.addEventListener("click", function () {
-      console.log("Deleting...");
       alert(`You've deleted title: ${myLibrary[i].title}`);
       myLibrary.splice(i, 1);
       render();

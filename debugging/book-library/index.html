@@ -3,22 +3,25 @@
 
 <head>
   <title> Book Library</title>
-  <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
-  <link rel="stylesheet" type="text/css" href="style.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 <body>
   <template id="book-template">
     <thead>
-      <th>Title</th>
-      <th>Author</th>
-      <th>Pages</th>
-      <th>Read</th>
-      <th>Delete</th>
+      <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Pages</th>
+        <th>Read</th>
+        <th>Delete</th>
+      </tr>
     </thead>
   </template>
   <main>
@@ -36,33 +39,33 @@
         <form class="form-group" id="add-book">
           <div>
             <label for="title">Title:</label>
-            <input type="text" class="form-control" id="title" name="title" />
+            <input type="text" class="form-control" id="title" name="title">
             <span class="error error-title"></span>
           </div>
           <div>
             <label for="author">Author: </label>
-            <input type="text" class="form-control" id="author" name="author" />
+            <input type="text" class="form-control" id="author" name="author">
             <span class="error error-author"></span>
           </div>
           <div>
             <label for="pages">Pages:</label>
-            <input type="number" class="form-control" id="pages" name="pages" />
+            <input type="number" class="form-control" id="pages" name="pages">
             <span class="error error-pages"></span>
           </div>
-          <div>
-            <label class="form-check-label">
-              <input type="checkbox" class="form-check-input" id="check" value="" />Read
-            </label>
 
-            <input type="submit" value="Submit" class="btn btn-primary" id="submit-button" />
+          <label class="form-check-label">
+            <input type="checkbox" class="form-check-input" id="check" value="">Read
+          </label>
+
+          <input type="submit" value="Submit" class="btn btn-primary" id="submit-button">
         </form>
       </div>
     </header>
-    <section class="display-books"></section>
+    <div class="display-books"></div>
 
   </main>
 
-  <script src="script.js"></script>
+  <script src="script.js" type="module"></script>
 </body>
 
 </html>

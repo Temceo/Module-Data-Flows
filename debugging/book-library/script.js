@@ -7,20 +7,19 @@ class Book {
   }
 }
 
-const form = document.getElementById("add-book");
+const addBookForm = document.getElementById("add-book");
 const submitBtn = document.getElementById("submit-button");
-const title = document.getElementById("title");
-const author = document.getElementById("author");
-const pages = document.getElementById("pages");
-const check = document.getElementById("check");
+const titleInput = document.getElementById("title");
+const authorInput = document.getElementById("author");
+const pagesInput = document.getElementById("pages");
+const checkInput = document.getElementById("check");
 const displayBooks = document.querySelector(".display-books");
-const demo = document.getElementById("demo");
+const bookEntryTab = document.getElementById("demo");
 
 let myLibrary = [];
 
 window.addEventListener("load", function (e) {
   populateStorage();
-  render();
 });
 
 function populateStorage() {
@@ -34,7 +33,7 @@ function populateStorage() {
 }
 
 // form submission event listeners - add new books
-form.addEventListener("submit", (event) => {
+addBookForm.addEventListener("submit", (event) => {
   event.preventDefault();
   processEntries();
 });
@@ -42,17 +41,17 @@ form.addEventListener("submit", (event) => {
 // book field validations
 const fields = {
   title: {
-    input: title,
+    input: titleInput,
     error: document.querySelector(".error-title"),
     message: "Title is required",
   },
   author: {
-    input: author,
+    input: authorInput,
     error: document.querySelector(".error-author"),
     message: "Author is required",
   },
   pages: {
-    input: pages,
+    input: pagesInput,
     error: document.querySelector(".error-pages"),
     message: "Enter page numbers (whole numbers only)",
   },
@@ -84,9 +83,9 @@ function processEntries() {
   if (isValid) {
     let book = new Book(title.value, author.value, pages.value, check.checked);
     myLibrary.push(book);
-    demo.classList.remove("show");
+    bookEntryTab.classList.remove("show");
     render();
-    form.reset();
+    addBookForm.reset();
   }
 }
 

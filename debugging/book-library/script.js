@@ -1,13 +1,4 @@
-class Book {
-  constructor(title, author, pages, check) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.check = check;
-  }
-}
-
-const addBook = document.getElementById("add-book");
+const addBookForm = document.getElementById("add-book");
 const submitBtn = document.getElementById("submit-button");
 const titleInput = document.getElementById("title");
 const authorInput = document.getElementById("author");
@@ -17,6 +8,15 @@ const displayBooks = document.getElementById("display-books");
 const bookEntryTab = document.getElementById("demo");
 
 const myLibrary = [];
+
+class Book {
+  constructor(title, author, pages, check) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.check = check;
+  }
+}
 
 function initLibrary() {
   if (myLibrary.length === 0) {
@@ -43,17 +43,17 @@ const fields = {
   pages: {
     input: pagesInput,
     error: document.querySelector(".error-pages"),
-    message: "Enter page numbers (whole numbers only)",
+    message: "Enter page numbers (positive whole numbers, minimum = 1)",
   },
 };
 // validate that pages input is a whole number
 function validatePagesInput() {
   const rawValue = pagesInput.value.trim();
-  const isValidPages =
-    rawValue !== "" && /^\d+$/.test(rawValue) && Number(rawValue) >= 1;
+  const isValidPages = /^([1-9]\d*)$/.test(rawValue);
 
   if (!isValidPages) {
-    fields.pages.error.textContent = "Enter page numbers (whole numbers only)";
+    fields.pages.error.textContent =
+      "Enter page numbers (positive whole numbers, minimum = 1)";
     return false;
   }
 
@@ -89,11 +89,11 @@ Object.values(fields).forEach(({ input, error }) => {
 });
 
 // check book entries are valid before adding to library
-function processEntries(event) {
+function processNewBookEntry(event) {
   event.preventDefault();
   // override browser default error messages so that my default error messages can show
-  if (!addBook.checkValidity()) {
-    addBook.reportValidity();
+  if (!addBookForm.checkValidity()) {
+    addBookForm.reportValidity();
     return;
   }
 
@@ -115,16 +115,20 @@ function processEntries(event) {
   }
 
   if (isValid) {
+    const trimmedTitle = titleInput.value.trim();
+    const trimmedAuthor = authorInput.value.trim();
+    const trimmedPages = pages.value.trim();
+
     let book = new Book(
-      titleInput.value,
-      authorInput.value,
-      pagesInput.value,
+      trimmedTitle,
+      trimmedAuthor,
+      trimmedPages,
       checkInput.checked
     );
     myLibrary.push(book);
     bookEntryTab.classList.remove("show");
     render();
-    addBook.reset();
+    addBookForm.reset();
   }
 }
 
@@ -192,5 +196,5 @@ function render() {
 }
 
 // event listeners
-addBook.addEventListener("submit", processEntries);
+addBookForm.addEventListener("submit", processNewBookEntry);
 window.addEventListener("DOMContentLoaded", initLibrary);

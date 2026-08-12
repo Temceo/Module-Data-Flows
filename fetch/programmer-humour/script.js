@@ -1,5 +1,5 @@
 const imageElement = document.querySelector("img");
-const IMG_URL = `https://xkcd.now.sh/?comic=latest`;
+const endpoint = `https://xkcd.now.sh/?comic=latest`;
 
 let imageCache = null;
 let imagePromise = null;
@@ -11,7 +11,7 @@ const state = {
 async function fetchImageData() {
   if (imageCache) return imageCache;
   if (!imagePromise) {
-    imagePromise = fetch(IMG_URL)
+    imagePromise = fetch(endpoint)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -43,7 +43,7 @@ async function setup() {
 function renderImage() {
   if (imageElement && state.imgData.img) {
     imageElement.src = state.imgData.img;
-    imageElement.alt = state.imgData.title || "Comic image";
+    imageElement.alt = state.imgData.alt || "Comic image";
   }
 }
 

@@ -1,0 +1,67 @@
+const imageElement = document.querySelector("img");
+const IMG_URL = `https://xkcd.now.sh/?comic=latest`;
+
+let cachedImage = null;
+let imageCache = null;
+let imagePromise = null;
+
+const state = {
+  imgData: {},
+};
+
+async function fetchImageData() {
+  if (cachedImage) return cachedImage;
+  if (!imagePromise) {
+    imagePromise = fetch(IMG_URL)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        imageCache = data;
+        return imageCache;
+      });
+  }
+  return imagePromise;
+}
+
+async function setup() {
+  try {
+    const fetchedImgData = await fetchImageData();
+    state.imgData = fetchedImgData;
+    renderImage();
+    const loadingMessage = document.querySelector(".app-message");
+    if (loadingMessage) {
+      loadingMessage.remove();
+    }
+  } catch (error) {
+    console.error("Failed to load image:", error);
+    showMessage("Sorry, we could not load the image right now.");
+  }
+}
+
+function renderImage() {
+  console.log(state.imgData);
+  if (imageElement && state.imgData.img) {
+    imageElement.src = state.imgData.img;
+    imageElement.alt = state.imgData.title || "Comic image";
+  }
+}
+
+function showMessage(message, duration = 3000) {
+  const existingMessage = document.querySelector(".app-message");
+  if (existingMessage) existingMessage.remove();
+
+  const messageBox = document.createElement("div");
+  messageBox.className = "app-message";
+  messageBox.textContent = message;
+  document.body.appendChild(messageBox);
+
+  setTimeout(() => {
+    messageBox.remove();
+  }, duration);
+}
+
+window.addEventListener("DOMContentLoaded", setup);

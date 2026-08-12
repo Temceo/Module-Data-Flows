@@ -37,13 +37,11 @@ async function setup() {
       loadingMessage.remove();
     }
   } catch (error) {
-    console.error("Failed to load image:", error);
     showMessage("Sorry, we could not load the image right now.");
   }
 }
 
 function renderImage() {
-  console.log(state.imgData);
   if (imageElement && state.imgData.img) {
     imageElement.src = state.imgData.img;
     imageElement.alt = state.imgData.title || "Comic image";

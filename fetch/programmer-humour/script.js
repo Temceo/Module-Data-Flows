@@ -1,7 +1,6 @@
 const imageElement = document.querySelector("img");
 const IMG_URL = `https://xkcd.now.sh/?comic=latest`;
 
-let cachedImage = null;
 let imageCache = null;
 let imagePromise = null;
 
@@ -10,7 +9,7 @@ const state = {
 };
 
 async function fetchImageData() {
-  if (cachedImage) return cachedImage;
+  if (imageCache) return imageCache;
   if (!imagePromise) {
     imagePromise = fetch(IMG_URL)
       .then((response) => {

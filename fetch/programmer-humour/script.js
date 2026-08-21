@@ -18,10 +18,8 @@ const getImage = async () => {
 
 const renderImage = async () => {
   const imgData = await getImage();
-  if (imageElement) {
-    imageElement.src = imgData?.img || "";
-    imageElement.alt = imgData?.alt || "Comic image";
-  }
+  imageElement.src = imgData?.img || "";
+  imageElement.alt = imgData?.alt || "Comic image";
 };
 
 renderImage();

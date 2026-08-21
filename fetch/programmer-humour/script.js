@@ -1,53 +1,32 @@
 const imageElement = document.querySelector("img");
 const endpoint = `https://xkcd.now.sh/?comic=latest`;
 
-let imageCache = null;
-let imagePromise = null;
+const getImage = async () => {
+  try {
+    const response = await fetch(endpoint);
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
 
-const state = {
-  imgData: {},
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error.message);
+    showLoadMessage("Sorry can't load image at present...");
+  }
 };
 
-async function fetchImageData() {
-  if (imageCache) return imageCache;
-  if (!imagePromise) {
-    imagePromise = fetch(endpoint)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        imageCache = data;
-        return imageCache;
-      });
+const renderImage = async () => {
+  const imgData = await getImage();
+  if (imageElement) {
+    imageElement.src = imgData?.img || "";
+    imageElement.alt = imgData?.alt || "Comic image";
   }
-  return imagePromise;
-}
+};
 
-async function setup() {
-  try {
-    const fetchedImgData = await fetchImageData();
-    state.imgData = fetchedImgData;
-    renderImage();
-    const loadingMessage = document.querySelector(".app-message");
-    if (loadingMessage) {
-      loadingMessage.remove();
-    }
-  } catch (error) {
-    showMessage("Sorry, we could not load the image right now.");
-  }
-}
+renderImage();
 
-function renderImage() {
-  if (imageElement && state.imgData.img) {
-    imageElement.src = state.imgData.img;
-    imageElement.alt = state.imgData.alt || "Comic image";
-  }
-}
-
-function showMessage(message, duration = 3000) {
+const showLoadMessage = (message, duration = 3000) => {
   const existingMessage = document.querySelector(".app-message");
   if (existingMessage) existingMessage.remove();
 
@@ -59,6 +38,6 @@ function showMessage(message, duration = 3000) {
   setTimeout(() => {
     messageBox.remove();
   }, duration);
-}
+};
 
-window.addEventListener("DOMContentLoaded", setup);
+window.addEventListener("DOMContentLoaded", getImage);
